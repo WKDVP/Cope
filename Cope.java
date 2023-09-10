@@ -77,6 +77,6 @@ public class Cope {
         npc1.getCardFirst();
         npc2.getCardFirst();
 
-        scan.close();
+        scan.close();//
     }
 }
