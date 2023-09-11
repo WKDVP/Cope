@@ -8,10 +8,12 @@ class Player {
     }
 
     Scanner scan = new Scanner(System.in);
-    Random rand = new Random(); // d
+    Random rand = new Random();
     String name;
     int bet;
     int money = 10000;
+    int sum;
+    boolean checkSum = true;
     ArrayList<Integer> cardNumber = new ArrayList<>();
     ArrayList<String> cardMark = new ArrayList<>();
     String markList[] = { "하트 ", "크로바 ", "스페이드 ", "다이아 " };
@@ -21,8 +23,19 @@ class Player {
         this.cardNumber.add(rand.nextInt(10) + 1);
         this.cardMark.add(markList[rand.nextInt(4)]);
         this.cardMark.add(markList[rand.nextInt(4)]);
-        System.out.println(this.name + "의 카드는 " + this.cardMark.get(0) + this.cardNumber.get(0) + ", " + this.cardMark.get(1) + this.cardNumber.get(1)
-                + " 입니다.");
+        System.out.print(this.name + "의 카드는 " + this.cardMark.get(0) + this.cardNumber.get(0) + ", "
+                + this.cardMark.get(1) + this.cardNumber.get(1)
+                + " 입니다. (합 :");
+        this.checkSave();
+    }
+
+    void getCard() {
+        this.cardNumber.add(rand.nextInt(10) + 1);
+        this.cardMark.add(markList[rand.nextInt(4)]);
+        System.out.print(this.name + "의 카드는 " + this.cardMark.get(cardMark.size() - 1)
+                + this.cardNumber.get(cardNumber.size() - 1) +
+                "입니다. (합: ");
+        this.checkSave();
     }
 
     void betting() {
@@ -39,6 +52,20 @@ class Player {
             }
         }
 
+    }
+
+    void checkSave() {
+        for (int i = 0; i < this.cardNumber.size(); i++) {
+            this.sum += this.cardNumber.get(i);
+        }
+        if (sum > 21) {
+            System.out.println(sum + ") 뒤졌습니다.");
+            sum = 0;
+            this.checkSum = false;
+        } else {
+            System.out.println(sum + ")");
+            sum = 0;
+        }
     }
 
 }
@@ -77,6 +104,15 @@ public class Cope {
         npc1.getCardFirst();
         npc2.getCardFirst();
 
-        scan.close();//
+        while (you.checkSum) {
+            System.out.print("hit or stay? (h/s): ");
+            if(scan.nextLine().equals("s")) {
+                you.checkSum = false;
+                break;
+            }
+            you.getCard();
+        }
+
+        scan.close();
     }
 }
