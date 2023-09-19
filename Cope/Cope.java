@@ -15,6 +15,7 @@ class Player {
     int bet;
     int money = 10000;
     int sum = 0;
+    int burstNum = 21;
     boolean checkSum = true;
     ArrayList<Integer> cardNumber = new ArrayList<>();
     ArrayList<String> cardMark = new ArrayList<>();
@@ -71,11 +72,11 @@ class Player {
         for (int i = 0; i < this.cardNumber.size(); i++) {
             this.sum += this.cardNumber.get(i);
         }
-        if (this.sum > 21) {
+        if (this.sum > burstNum) {
             System.out.println(sum + ") 버스트!");
             this.sum = 0;
             this.checkSum = false;
-        } else if (this.sum == 21) {
+        } else if (this.sum == burstNum) {
             System.out.println(" 21) 블랙잭!");
             this.sum = 0;
             this.checkSum = false;
@@ -159,8 +160,42 @@ class Dealer extends Player{
          */ // 블랙잭 나오게 하기
         this.cardMark.add(markList[rand.nextInt(4)]);
         this.cardMark.add(markList[rand.nextInt(4)]);
-        System.out.println(this.name + "의 카드는 " + this.cardMark.get(0) + this.cardNumber.get(0) + " 입니다.");
+        System.out.println(this.name + "의 카드는 " + this.cardMark.get(1) + this.cardNumber.get(1) + " 입니다.");
         }
+
+    void getSum() {
+        this.sum = 0;
+        for (int i = 1; i < this.cardNumber.size(); i++) {
+            this.sum += this.cardNumber.get(i);
+        } 
+    }
+    void getCard() {
+        this.cardNumber.add(rand.nextInt(10) + 1);
+        this.cardMark.add(markList[rand.nextInt(4)]);
+        System.out.print(this.name + "의 카드는 " + this.cardMark.get(cardMark.size() - 1)
+                + this.cardNumber.get(cardNumber.size() - 1) +
+                "입니다. (합: ");
+        this.checkSaveD();
+    }
+
+    void checkSaveD() {
+        this.sum = 0;
+        for (int i = 1; i < this.cardNumber.size(); i++) {
+            this.sum += this.cardNumber.get(i);
+        }
+        if (this.sum > 21) { // 뒤집은 카드 공개
+            System.out.println(") 딜러 버스트!");
+            this.checkSum = false;
+        } else if (this.sum > 16){
+            System.out.print(sum + ")\n딜러의 첫 카드는 " + this.cardMark.get(1) + this.cardNumber.get(1) + " 입니다. (합: ");
+            this.checkSave();
+            this.sum = 0;
+            this.checkSum = false;
+        } else {
+            System.out.println(sum + ")");
+            this.sum = 0;
+        }
+    }
 
 }
 
@@ -190,7 +225,6 @@ public class Cope {
                     you.checkSum = false;
                 }
                 else if (temp.equals("h")) {
-                    System.out.println("he");
                     you.getCard();
                 }
                 else {
@@ -214,6 +248,7 @@ public class Cope {
         시발 코딩 접을까?
         (자칭) 9세 로리우이 ㅈㄴ 귀엽네요
         근데 시발 디코봇으로 만들 생각하니까 벌써 두려운데
+        뽀에뽀에뽀에
         */
 
         scan.close();
