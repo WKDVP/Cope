@@ -3,6 +3,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.InputMismatchException;
+//import java.time.LocalDateTime;
 
 class Player {
     Player(String a) {
@@ -200,7 +201,18 @@ class Dealer extends Player{
 }
 
 public class Cope {
-
+     /*
+     * 
+     * @param a - sec input
+     */
+    public static void sleep(int a) { 
+        try{
+                Thread.sleep(a * 1000);
+            }
+            catch (InterruptedException e){
+                
+            }
+    }
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         System.out.print("이름을 입력하세요: ");
@@ -208,7 +220,7 @@ public class Cope {
         Npc npc1 = new Npc();
         Npc npc2 = new Npc();
         Dealer dealer = new Dealer();
-
+        
         you.betting();
         npc1.betting();
         npc2.betting();
@@ -218,7 +230,7 @@ public class Cope {
         dealer.getCardFirst();
 
         while (you.checkSum || npc1.checkSum || npc2.checkSum) {
-            if (you.checkSum) {
+            while (you.checkSum) {
                 System.out.print("hit or stay? (h/s): ");
                 String temp = scan.nextLine();
                 if (temp.equals("s")) {
@@ -226,21 +238,25 @@ public class Cope {
                 }
                 else if (temp.equals("h")) {
                     you.getCard();
+                    break;
                 }
                 else {
-                    System.out.println("뭐라고요?");
-                    scan.nextLine();
+                    System.out.println("잘못된 입력입니다");
+                    //scan.nextLine();
                 }
             }
 
             if (npc1.checkSum) {
+                sleep(3);
                 npc1.stayOrHit();
             }
             if (npc2.checkSum) {
+                sleep(2);
                 npc2.stayOrHit();
             }
         }
         while (dealer.checkSum) {
+            sleep(2);
             dealer.getCard();
         }
         /*
