@@ -104,11 +104,21 @@ class Player {
         }
     }
 
+    void restart() {
+        this.cardMark.clear();
+        this.cardNumber.clear();
+        this.checkSum = true;
+        this.isBlackjack = false;
+        this.burst = false;
+    }
+
 }
 
 class Npc extends Player {
-    String[] defaultNames1 = { " Amelia", " Chloe", " Koyori", " Kiara" };
-    String[] defaultNames2 = { "Watson", "Sakamata", "Hakui", "Oogami" };
+    String[] defaultNames1 = { " Amelia", " Chloe", " Koyori", " Mio", " Kiara", " Watame", " Poruka", " Gozaru",
+            " Iroha", " Mumei" };
+    String[] defaultNames2 = { "Watson", "Sakamata", "Hakui", "Oogami", "Takanashi", "Tsunomaki", "Omaru", "Kazama",
+            "Nanashi" };
     Random rand = new Random();
 
     Npc() {
@@ -171,10 +181,9 @@ class Dealer extends Player {
     void getCardFirst() {
         this.cardNumber.add(rand.nextInt(10) + 1);
         this.cardNumber.add(rand.nextInt(10) + 1);
-        /*
-         * this.cardNumber.add(10);
-         * this.cardNumber.add(11);
-         */ // 블랙잭 나오게 하기
+        //this.cardNumber.add(1);
+        //this.cardNumber.add(20);
+        // 블랙잭 나오게 하기
         this.cardMark.add(markList[rand.nextInt(4)]);
         this.cardMark.add(markList[rand.nextInt(4)]);
         System.out.println(this.name + "의 카드는 " + this.cardMark.get(1) + this.cardNumber.get(1) + " 입니다.");
@@ -202,8 +211,9 @@ class Dealer extends Player {
             this.sum += this.cardNumber.get(i);
         }
         if (this.sum > 21) { // 뒤집은 카드 공개
-            System.out.println(") 딜러 버스트!");
+            System.out.println(sum + ") 딜러 버스트!");
             this.checkSum = false;
+            this.burst = true;
         } else if (this.sum > 16) {
             System.out.print(sum + ")\n딜러의 첫 카드는 " + this.cardMark.get(0) + this.cardNumber.get(0) + " 입니다. (합: ");
             this.checkSave();
@@ -245,11 +255,16 @@ public class Cope {
         Dealer dealer = new Dealer();
         while (true) {
             you.betting();
+            sleep(1);
             npc1.betting();
+            sleep(1);
             npc2.betting();
             you.getCardFirst();
+            sleep(1);
             npc1.getCardFirst();
+            sleep(1);
             npc2.getCardFirst();
+            sleep(1);
             dealer.getCardFirst();
 
             while (you.checkSum || npc1.checkSum || npc2.checkSum) {
@@ -307,25 +322,27 @@ public class Cope {
                 check(21 - dealer.sum, npc1);
                 check(21 - dealer.sum, npc2);
             }
-            /*String temp2;
-            try {
-               temp2 = scan.nextLine();
-            } catch (InputMismatchException e) {
-                System.out.println("옳바른 정수값을 입력해 주세요");
-                scan.nextLine();
-            }
-            */
+            /*
+             * String temp2;
+             * try {
+             * temp2 = scan.nextLine();
+             * } catch (InputMismatchException e) {
+             * System.out.println("옳바른 정수값을 입력해 주세요");
+             * scan.nextLine();
+             * }
+             */
             System.out.print("계속하시겠습니까?(y/n): ");
             String temp2 = scan.nextLine();
-            if(temp2.equals("n")){
+            if (temp2.equals("n")) {
                 break;
-            }
-            else if(you.money <= 0){
+            } else if (you.money <= 0) {
                 System.out.println("돈이 부족합니다.");
                 break;
-            }
-            else{
-                //예외처리
+            } else {
+                you.restart();;
+                npc1.restart();
+                npc2.restart();
+                dealer.restart();
             }
 
         }
