@@ -1,7 +1,4 @@
-package Cope;
-
 import java.util.Scanner;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.InputMismatchException;
@@ -21,7 +18,7 @@ class Player {
     int burstNum = 21;
     boolean checkSum = true;
     boolean burst = false;
-    boolean isBlackjack = false; 
+    boolean isBlackjack = false;
     ArrayList<Integer> cardNumber = new ArrayList<>();
     ArrayList<String> cardMark = new ArrayList<>();
     String markList[] = { "하트 ", "크로바 ", "스페이드 ", "다이아 " };
@@ -227,8 +224,18 @@ class Dealer extends Player {
     }
 
 }
+class Card {
+    String mark;
+    String number;
+    int mean;
+    Card(String a, String b, int c){
+        mark = a;
+        number = b;
+        mean = c;
+    }
+}
 
-public class Cope {
+public class test {
     /*
      * 
      * @param a - sec input
@@ -254,6 +261,25 @@ public class Cope {
         Npc npc1 = new Npc();
         Npc npc2 = new Npc();
         Dealer dealer = new Dealer();
+        //ArrayList<Card> cards = new ArrayList<>();
+        String[] markList = { "하트 ", "크로바 ", "스페이드 ", "다이아 " };
+        String[] numberList = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" }; // 13
+        Card[] cards = new Card[52];
+        for (int i = 0,index = 0; i < 4; i++) {
+            for (int j = 0; j < numberList.length; j++) {
+                if (j < 10) {
+                    cards[index] = new Card(markList[i], numberList[j], j + 1);
+                    index++;
+                } else {
+                    cards[index] = new Card(markList[i], numberList[j], 10);
+                    index++;
+                }
+            }
+        }
+        for(int a = 0; a<52;a++){
+            System.out.println(a + cards[a].mark + cards[a].number + cards[a].mean);
+        }
+        
         while (true) {
             you.betting();
             sleep(1);
