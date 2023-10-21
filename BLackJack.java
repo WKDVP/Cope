@@ -254,7 +254,7 @@ class Card {
     }
 }
 
-public class test {
+public class BLackJack {
     /*
      * 
      * @param a - sec input
